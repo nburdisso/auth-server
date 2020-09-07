@@ -21,8 +21,8 @@ passport.use(new LocalStrategy((username, password, done) => {
     return validate.user(user, password)
   })
   .then(user => done(null, user))
-  .catch(() => {
-    return done(null, false)
+  .catch((err) => {
+    return done(null,false, { message: err.message })
   });
 }));
 

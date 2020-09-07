@@ -20,8 +20,8 @@ const suppressTrace = process.env.SURPRESS_TRACE === "true";
 validate.logAndThrow = (msg) => {
   if (!suppressTrace) {
     console.trace(msg);
+    throw new Error(msg);
   }
-
   throw new Error(msg);
 };
 
@@ -34,11 +34,16 @@ validate.logAndThrow = (msg) => {
  * @returns {Object} The user if valid
  */
 validate.user = (user, password) => {
-  validate.userExists(user);
-  if (user.password !== password) {
-    validate.logAndThrow("User password does not match");
+  try {
+    validate.userExists(user);
+    if (user.password !== password) {
+      validate.logAndThrow("User password does not match");
+    }
+    return user;
   }
-  return user;
+  catch (err) {
+    throw err;
+  }
 };
 
 /**
