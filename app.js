@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 'use strict';
 
 const bodyParser = require('body-parser');
 const client = require('./controllers/client');
 const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 const config = require('./config');
 const db = require('./db');
 const express = require('express');
@@ -40,6 +42,14 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+app.use((req,res,next)=> {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+next();
+})
+
 require('./setup/passport');
 
 // TODO create Router to handle routing
@@ -47,7 +57,6 @@ require('./setup/passport');
 app.get('/login', site.loginForm);
 app.post('/login', site.login);
 app.get('/logout', site.logout);
-app.get('/account', site.account);
 
 app.get('/dialog/authorize', oauth2.authorization);
 app.post('/oauth/token', oauth2.token);

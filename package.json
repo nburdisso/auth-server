@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.9.x",
     "connect-ensure-login": "^0.1.x",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.3.x",
     "ejs": "^2.5.x",
     "express": "^4.10.x",
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "lint": "eslint *.js config db test",
-    "start": "node app.js",
+    "start": "node app.js —-inspect",
     "test": "mocha test test/db test/config",
     "test:watch": "npm run test -- --watch",
     "test:integration": "mocha test/integration"
@@ -45,7 +46,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^3.2.x",
+    "mocha": "^8.1.3",
     "request": "^2.48.x",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"
