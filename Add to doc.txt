@@ -1,0 +1,78 @@
+- Express
+
+- Express Session: es un middleware de cookies de sesión.
+Este almacena los datos de sesión en el servidor,
+guardando únicamente el ID de la misma en la propia cookie.
+
+- Body parser: es un middleware de parseo de body.
+Este parsea los bodies de las requests y lo disponibiliza en la
+propiedad req.body del servidor.
+
+- View engine: a definir
+
+- Cookie parser: es un middleware que parsea el header Cookie y popula la propiedad cookies de la request con esa información.
+
+- Passport: es un middleware de autenticación.
+El mismo está diseñado para servir un propósito en particular:
+autenticar solicitudes.
+Está diseñado de forma flexible y modular, lo que lo hace fácil de integrar en cualquier aplicación.
+
+- connect-ensure-login: es un middleware que permite asegurar que el usuario se encuentre logueado.
+En caso de que se reciba una request no autenticada, la misma es redirigida a la pagina de login.
+Permite mantener la url de la request original en una sesión para que, luego de loguearse, el usuario sea redirigido a la misma.
+
+- OAuth2orize: es un modulo que provee una serie de middlewares que ayudan en la creacion de un servidor de autenticacion.
+En conjunto con las estrategias de autenticacion de Passport y controladores específicos de la aplicación, puede ser utilizado para
+ensamblar un servidor que implemente el protocolo OAuth 2.0.
+
+- JsonWebToken: Es un módulo que encapsula la generación y validación de JWToken.
+
+- OpenSSL: Es un conjunto de herramientas criptograficas que implementan el protocolo de red TLS asi como otros
+estandars de criptografia. Utilizamos esto para creacion de claves y certificados.
+
+Authorization server Endpoints:
+
+- GET Authorization Code:
+    /dialog/authorize?
+    redirect_uri=&
+    response_type=code&
+    client_id=&
+    scope=offline_access
+
+    returns:
+    if user is not logged in: 302 to /login
+    if user is logged in: 200 show Allow/Deny form
+
+- POST Login:
+    /login
+    body:
+        username
+        password
+
+    return:
+    Successful login: 302 to previous url
+    Fail login: 302 to /login
+
+- POST Allow Deny:
+    /dialog/authorize/decision
+    body:
+        cancel?
+
+    returns
+    if allow: 302 to received redirect url
+    if denied: throw Error
+
+
+- IMPORTANTE!!! Decidimos deprecar el uso del allow deny y suponer que el cliente siempre es confiable ya
+que conocemos a la app que interactuara con este servidor de autorizacion
+
+
+FrontEnd developing:
+Security courses
++ Using Bcrypt for hashing passwords in highly recommended because it has advantages
+over other hashing techniques. It prevents brute-force attacks because it is slow
+to hash passwords compared to other techniques and also resistant to rainbow table based attacks.
+Username and password must also be validated together before sending response to prevent timing attack.
+
+Flash
+This is a node package that allows Passport to pass a message to a view by setting the flag 'failureFlash' in true.
